@@ -244,7 +244,7 @@ $ docker logs bcbcd1e06093
 We can see the request was received at ` 18:40:08` and we delayed it by 5 seconds and served the request at ` 18:40:13`.
 
 
-## K8s deploy (KIND):
+# K8s deploy (KIND):
 
 ```
 ## Install docker, kubectl, etc.
