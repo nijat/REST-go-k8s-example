@@ -260,7 +260,7 @@ $ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.12.1/man
 $ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.12.1/manifests/metallb.yaml
 
 ### Edit metallb-configmap-davar.yaml
-
+```
 $ docker network inspect -f '{{.IPAM.Config}}' kind
 [{172.20.0.0/16  172.17.0.1 map[]} {fc00:f853:ccd:e793::/64   map[]}]
 
@@ -277,7 +277,7 @@ data:
       protocol: layer2
       addresses:
       - 172.20.0.200-172.20.0.250
-
+```
 
 ## Deploy Go microservcie:
 
@@ -326,7 +326,7 @@ spec:
 Let's create the Go microservcie using the `kubectl create` command, You can also use the `kubectl apply` command,
 
 ```
-$ kubectl apply -f kubernetes/loadbalancer-usage.yaml 
+$ kubectl apply -f kubernetes/loadbalancer-qotd.yaml 
 deployment.apps/rest created
 service/rest created
 davar@carbon:~/Documents/REST-gRPC-Go-k8s-playground/REST-go-k8s-example$ kubectl get all
