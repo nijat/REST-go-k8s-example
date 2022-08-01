@@ -255,6 +255,7 @@ $ curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.14.0/kind-linux-amd64 && chmod 
 
 ## Create cluster (CNI=Calico, Enable ingress)
 
+$ cd kubernetes
 $ kind create cluster --name devops --config cluster-config.yaml
 
 $ kind get kubeconfig --name="devops" > admin.conf
