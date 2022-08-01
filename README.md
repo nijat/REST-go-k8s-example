@@ -291,12 +291,14 @@ data:
       protocol: layer2
       addresses:
       - 172.20.0.200-172.20.0.250
+      
+$ kubectl apply -f metallb-configmap.yaml       
 ```
 
 ## Deploy Go microservcie:
 
 
-create a pod definition file and specify the container image as `mvenkatesh431/k8s-test-container`. Here is an example.
+create a qotd manifest definition file and specify the container image as `davarski/go-rest-api-demo`. Here is an example.
 
 ```
 $ cat kubernetes/loadbalancer-usage.yaml 
@@ -337,40 +339,12 @@ spec:
 
 ```
 
-Let's create the Go microservcie using the `kubectl create` command, You can also use the `kubectl apply` command,
+Let's create the Go microservice using the `kubectl create` command, You can also use the `kubectl apply` command,
 
 ```
-$ kubectl apply -f kubernetes/loadbalancer-qotd.yaml 
+$ kubectl apply -f loadbalancer-qotd.yaml 
 deployment.apps/rest created
 service/rest created
-davar@carbon:~/Documents/REST-gRPC-Go-k8s-playground/REST-go-k8s-example$ kubectl get all
-NAME                       READY   STATUS              RESTARTS   AGE
-pod/rest-786fc49b6-ks57w   0/1     ContainerCreating   0          6s
-pod/rest-786fc49b6-p7hdv   0/1     ContainerCreating   0          6s
-
-NAME                 TYPE           CLUSTER-IP   EXTERNAL-IP    PORT(S)           AGE
-service/kubernetes   ClusterIP      10.96.0.1    <none>         443/TCP           86m
-service/rest         LoadBalancer   10.96.9.7    172.20.0.200   10000:32595/TCP   6s
-
-NAME                   READY   UP-TO-DATE   AVAILABLE   AGE
-deployment.apps/rest   0/2     2            0           6s
-
-NAME                             DESIRED   CURRENT   READY   AGE
-replicaset.apps/rest-786fc49b6   2         2         0       6s
-davar@carbon:~/Documents/REST-gRPC-Go-k8s-playground/REST-go-k8s-example$ kubectl get all
-NAME                       READY   STATUS    RESTARTS   AGE
-pod/rest-786fc49b6-ks57w   1/1     Running   0          13s
-pod/rest-786fc49b6-p7hdv   1/1     Running   0          13s
-
-NAME                 TYPE           CLUSTER-IP   EXTERNAL-IP    PORT(S)           AGE
-service/kubernetes   ClusterIP      10.96.0.1    <none>         443/TCP           86m
-service/rest         LoadBalancer   10.96.9.7    172.20.0.200   10000:32595/TCP   13s
-
-NAME                   READY   UP-TO-DATE   AVAILABLE   AGE
-deployment.apps/rest   2/2     2            2           13s
-
-NAME                             DESIRED   CURRENT   READY   AGE
-replicaset.apps/rest-786fc49b6   2         2         2       13s
 
 ```
 
@@ -378,18 +352,19 @@ let's check if the pod is created using the kubectl get pods
 ```
 $ kubectl get all
 NAME                       READY   STATUS    RESTARTS   AGE
-pod/rest-786fc49b6-ks57w   1/1     Running   0          13s
-pod/rest-786fc49b6-p7hdv   1/1     Running   0          13s
+pod/rest-786fc49b6-gqvvq   1/1     Running   0          15s
+pod/rest-786fc49b6-t7qtq   1/1     Running   0          15s
 
-NAME                 TYPE           CLUSTER-IP   EXTERNAL-IP    PORT(S)           AGE
-service/kubernetes   ClusterIP      10.96.0.1    <none>         443/TCP           86m
-service/rest         LoadBalancer   10.96.9.7    172.20.0.200   10000:32595/TCP   13s
+NAME                 TYPE           CLUSTER-IP    EXTERNAL-IP    PORT(S)           AGE
+service/kubernetes   ClusterIP      10.96.0.1     <none>         443/TCP           9m8s
+service/rest         LoadBalancer   10.96.15.71   172.20.0.200   10000:31061/TCP   15s
 
 NAME                   READY   UP-TO-DATE   AVAILABLE   AGE
-deployment.apps/rest   2/2     2            2           13s
+deployment.apps/rest   2/2     2            2           15s
 
 NAME                             DESIRED   CURRENT   READY   AGE
-replicaset.apps/rest-786fc49b6   2         2         2       13s
+replicaset.apps/rest-786fc49b6   2         2         2       15s
+ 0       6s
 
 $ curl http://172.20.0.200:10000/info
 {"Endpoint":"/info","Host":"172.20.0.200:10000","Method":"GET","RemoteIP":"192.168.188.128:36300","Version":"1.0.0"}
@@ -410,79 +385,23 @@ Now the pod is created. You can also check the pod logs using the `kubectl log` 
 ```
 $ kubectl get po
 NAME                   READY   STATUS    RESTARTS   AGE
-rest-786fc49b6-ks57w   1/1     Running   0          13m
-rest-786fc49b6-p7hdv   1/1     Running   0          13m
-$ kubectl logs rest-786fc49b6-ks57w
-2022/08/01 10:02:06 Simple API Server(1.0.0) running on 0.0.0.0:10000
-2022/08/01 10:03:02 Entered /quote endpoint, Invoked from 192.168.188.128:34597 , using ./quotes.json as QuotesSource
-2022/08/01 10:03:02 The only way to learn a new programming language is by writing programs in it. - Dennis Ritchie
-2022/08/01 10:03:38 Entering /env endpoint, Invoked from 192.168.188.128:30288
-2022/08/01 10:03:43 Entered /quote endpoint, Invoked from 192.168.188.128:27348 , using ./quotes.json as QuotesSource
-2022/08/01 10:03:43 There is no great genius without some touch of madness. - Aristotle
-2022/08/01 10:03:45 Entered /quote endpoint, Invoked from 192.168.188.128:21150 , using ./quotes.json as QuotesSource
-2022/08/01 10:03:45 The only true wisdom is in knowing you know nothing. - Socrates
-2022/08/01 10:03:47 Entered /quote endpoint, Invoked from 192.168.188.128:59392 , using ./quotes.json as QuotesSource
-2022/08/01 10:03:47 Programming isn't about what you know; it's about what you can figure out. - Chris Pine
+rest-786fc49b6-gqvvq   1/1     Running   0          119s
+rest-786fc49b6-t7qtq   1/1     Running   0          119s
+
+$ kubectl logs rest-786fc49b6-gqvvq
+2022/08/01 10:59:46 Simple API Server(1.0.0) running on 0.0.0.0:10000
+2022/08/01 11:00:53 Entering /info endpoint, Invoked from 192.168.188.128:51946
+2022/08/01 11:01:12 Entering /health-check endpoint, Invoked from 192.168.188.128:3009
+2022/08/01 11:01:23 Entered /quote endpoint, Invoked from 192.168.188.128:1345 , using ./quotes.json as QuotesSource
+2022/08/01 11:01:23 Yeah We alll shine on, Like the Moon, and the Stars, And the SUN. - John Lennon
+
 
 ```
 
 Get more details about the pod using the `kubectl describe pod` command.
 ```
 $ kubectl describe po rest-786fc49b6-ks57w
-Name:         rest-786fc49b6-ks57w
-Namespace:    default
-Priority:     0
-Node:         devops-worker/172.20.0.2
-Start Time:   Mon, 01 Aug 2022 13:01:57 +0300
-Labels:       app=rest
-              pod-template-hash=786fc49b6
-Annotations:  cni.projectcalico.org/containerID: 18b60815475ccfd0364f2df981f940f503c3ba7fd0ce1c0f746d816c27bd2e53
-              cni.projectcalico.org/podIP: 192.168.188.136/32
-              cni.projectcalico.org/podIPs: 192.168.188.136/32
-Status:       Running
-IP:           192.168.188.136
-IPs:
-  IP:           192.168.188.136
-Controlled By:  ReplicaSet/rest-786fc49b6
-Containers:
-  rest:
-    Container ID:   containerd://2f46ecba197c19c2812e21235f15821984f7ebd451c4ab122f6b536e23876a9d
-    Image:          davarski/go-rest-api-demo
-    Image ID:       docker.io/davarski/go-rest-api-demo@sha256:4d632eacd6ddbc6143e7aaea760adb8e167788e272dc636dbce54b371401fd8a
-    Port:           10000/TCP
-    Host Port:      0/TCP
-    State:          Running
-      Started:      Mon, 01 Aug 2022 13:02:06 +0300
-    Ready:          True
-    Restart Count:  0
-    Environment:    <none>
-    Mounts:
-      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-n5vf7 (ro)
-Conditions:
-  Type              Status
-  Initialized       True 
-  Ready             True 
-  ContainersReady   True 
-  PodScheduled      True 
-Volumes:
-  kube-api-access-n5vf7:
-    Type:                    Projected (a volume that contains injected data from multiple sources)
-    TokenExpirationSeconds:  3607
-    ConfigMapName:           kube-root-ca.crt
-    ConfigMapOptional:       <nil>
-    DownwardAPI:             true
-QoS Class:                   BestEffort
-Node-Selectors:              <none>
-Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
-                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
-Events:
-  Type    Reason     Age   From               Message
-  ----    ------     ----  ----               -------
-  Normal  Scheduled  14m   default-scheduler  Successfully assigned default/rest-786fc49b6-ks57w to devops-worker
-  Normal  Pulling    14m   kubelet            Pulling image "davarski/go-rest-api-demo"
-  Normal  Pulled     13m   kubelet            Successfully pulled image "davarski/go-rest-api-demo" in 7.37499621s
-  Normal  Created    13m   kubelet            Created container rest
-  Normal  Started    13m   kubelet            Started container rest
+...
 
 ```
 
