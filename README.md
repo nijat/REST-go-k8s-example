@@ -1,4 +1,4 @@
-## Simple GO REST API:
+## Simple GO REST API microservice:
 
 This project contains a simple GO rest API service. This service is useful to test the Kubernetes and Docker.
 
