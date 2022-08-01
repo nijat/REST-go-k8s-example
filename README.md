@@ -1,6 +1,6 @@
 ## Simple GO REST API:
 
-This project contains a simple GOLang rest API service. This service is useful to test the Kubernetes and Docker.
+This project contains a simple GO rest API service. This service is useful to test the Kubernetes and Docker.
 
 We also packaged it as a Docker Image. We used mutli stage build to create the small docker image. and **The size of the image is very small. It's just 12.4 MB.**
 You can build/push/pull it from docker hub using below command.
