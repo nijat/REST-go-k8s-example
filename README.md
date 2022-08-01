@@ -244,12 +244,12 @@ $ docker logs bcbcd1e06093
 We can see the request was received at ` 18:40:08` and we delayed it by 5 seconds and served the request at ` 18:40:13`.
 
 
-# K8s deploy (KIND):
+# k8s deploy (KIND):
+
+## Install docker, kubectl, KIND, etc.
 
 ```
-## Install docker, kubectl, etc.
-
-## Instal KIND
+## KIND install
 
 $ curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.14.0/kind-linux-amd64 && chmod +x ./kind && sudo mv ./kind /usr/local/bin/kind
 
@@ -265,7 +265,7 @@ $ kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
 $ kubectl -n kube-system set env daemonset/calico-node FELIX_IGNORELOOSERPF=true
 
 
-## Ingress Nginx
+## Ingress Nginx (optional)
 $ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
 
 ## LoadBalancer (MetalLB)
@@ -296,7 +296,6 @@ $ kubectl apply -f metallb-configmap.yaml
 ```
 
 ## Deploy Go microservcie:
-
 
 create a qotd manifest definition file and specify the container image as `davarski/go-rest-api-demo`. Here is an example.
 
@@ -405,7 +404,7 @@ $ kubectl describe po rest-786fc49b6-ks57w
 
 ```
 
-## Clean environment
+## Clean KIND environment
 ```
 $ kind delete cluster --name=devops
 ```
