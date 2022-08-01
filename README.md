@@ -472,3 +472,7 @@ Events:
 
 ```
 
+## Clean environment
+```
+$ kind delete cluster --name=devops
+```
