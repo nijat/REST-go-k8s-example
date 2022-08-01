@@ -47,7 +47,7 @@ By default server listens on `10000` Port on `all Interfaces (0.0.0.0)` of node.
 Please look at the [Running on Docker](https://github.com/adavarski/REST-go-k8s-example#running-on-docker) section
 
 ## Running using Kubernetes(K8s):
-Please look at the [Running on Kubernetes](https://github.com/adavarski/REST-go-k8s-example#running-on-kubernetes) section
+Please look at the [Running on Kubernetes](https://github.com/adavarski/REST-go-k8s-example#k8s-deploy-kind) section
 
 ### `/info` Endpoint output:
 ```
