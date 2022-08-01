@@ -24,6 +24,19 @@ We are using the Gorilla Mux and Following routes are implemented
 Clone the repo and run the `main.go` using the `go run`
 
 ```
+### Install Go
+$ wget https://go.dev/dl/go1.18.4.linux-amd64.tar.gz
+$ sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go1.18.4.linux-amd64.tar.gz
+
+$ grep GO ~/.bashrc 
+export GOROOT=/usr/local/go
+export PATH=${GOROOT}/bin:${PATH}
+export GOPATH=$HOME/go
+export PATH=${GOPATH}/bin:${PATH}
+
+$ go version
+go version go1.18.4 linux/amd64
+
 $ go run main.go 
 2022/08/01 12:05:54 Simple API Server(1.0.0) running on 0.0.0.0:32000
 ```
