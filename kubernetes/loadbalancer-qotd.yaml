@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rest
+  labels:
+    app: rest
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: rest
+  template:
+    metadata:
+      labels:
+        app: rest
+    spec:
+      containers:
+      - name: rest
+        image: davarski/go-rest-api-demo
+        ports:
+        - name: http
+          containerPort: 10000
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: rest
+spec:
+  type: LoadBalancer
+  selector:
+    app: rest
+  ports:
+  # Default port used by the image
+  - port: 10000
