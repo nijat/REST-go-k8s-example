@@ -260,7 +260,7 @@ $ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.12.1/man
 $ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.12.1/manifests/metallb.yaml
 
 ### Edit metallb-configmap-davar.yaml
-```
+
 $ docker network inspect -f '{{.IPAM.Config}}' kind
 [{172.20.0.0/16  172.17.0.1 map[]} {fc00:f853:ccd:e793::/64   map[]}]
 
