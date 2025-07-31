@@ -1,31 +1,21 @@
-#### We will use Multi-stage Docker Build ####
-#### Build Executable binary ####
-FROM golang:latest as builder
+# Start from the official Go image
+FROM golang:1.22-alpine
 
-# Set Environment Variables
-ENV CGO_ENABLED 0
-ENV GOOS linux
+# Set working directory
+WORKDIR /app
 
-# Copy the code
-WORKDIR $GOPATH/src/go-rest-api/
-COPY go.mod go.sum ./
+# Copy Go module files and download deps
+COPY go.mod ./
 RUN go mod download
+
+# Copy source code
 COPY . .
 
-# Build binary
-RUN go build -a -installsuffix cgo -o /app/main .
+# Build the Go binary
+RUN go build -o main .
 
-#### Build Small(Tiny) Image ####
-FROM alpine:latest
+# Expose the service port
+EXPOSE 8080
 
-# RUN apk --no-cache add ca-certificates
-WORKDIR /root/
-
-# We need quotes.json file. So lets include it as well.
-COPY quotes.json ./
-
-# Copy the pre-built binary file from the previous stage
-COPY --from=builder /app/main .
-
-# Run the service
-CMD [ "./main" ]
+# Run the binary
+CMD ["./main"]

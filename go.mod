@@ -1,5 +1,3 @@
-module github.com/adavarski/REST-go-k8s-example
+module github.com/yourusername/go-simple-api
 
-go 1.18
-
-require github.com/gorilla/mux v1.8.0
+go 1.22
